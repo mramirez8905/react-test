@@ -16,28 +16,29 @@ Aplicación hecha con **React + TypeScript + Vite + Material UI** que consume la
 
 ### Stack elegido
 
-| Pieza | Elección | Por qué |
-|-------|----------|---------|
-| Build tool | Vite | Ya viene en la base del proyecto. Rápido, moderno, soporte TS nativo. |
-| Lenguaje | TypeScript | Requisito del ejercicio. Da contratos explícitos y reduce errores en props/estado. |
-| UI | Material UI (MUI) | El usuario la instaló previamente. Ofrece componentes accesibles y estilados de entrada. |
-| Router | React Router DOM | Navegación por URL con parámetros (`/users/:userId/posts`). |
-| HTTP | `fetch` nativo | JSONPlaceholder es simple; no justifica agregar axios u otra dependencia. |
-| Estado + caché | TanStack Query (`@tanstack/react-query`) | Maneja caché, loading, error y re-fetch de forma simple y robusta. |
-| Testing | Jest + `@testing-library/react` | Ya estaba instalado en el proyecto. Se configuró con Babel para transformar TypeScript. |
-| Validación | Estado local + helpers simples | Evito dependencias extra (`react-hook-form`, zod) porque el formulario tiene solo dos campos obligatorios. |
+| Pieza          | Elección                                 | Por qué                                                                                                    |
+| -------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Build tool     | Vite                                     | Ya viene en la base del proyecto. Rápido, moderno, soporte TS nativo.                                      |
+| Lenguaje       | TypeScript                               | Requisito del ejercicio. Da contratos explícitos y reduce errores en props/estado.                         |
+| UI             | Material UI (MUI)                        | El usuario la instaló previamente. Ofrece componentes accesibles y estilados de entrada.                   |
+| Router         | React Router DOM                         | Navegación por URL con parámetros (`/users/:userId/posts`).                                                |
+| HTTP           | `fetch` nativo                           | JSONPlaceholder es simple; no justifica agregar axios u otra dependencia.                                  |
+| Estado + caché | TanStack Query (`@tanstack/react-query`) | Maneja caché, loading, error y re-fetch de forma simple y robusta.                                         |
+| Testing        | Jest + `@testing-library/react`          | Ya estaba instalado en el proyecto. Se configuró con Babel para transformar TypeScript.                    |
+| Validación     | Estado local + helpers simples           | Evito dependencias extra (`react-hook-form`, zod) porque el formulario tiene solo dos campos obligatorios. |
 
 ### Estructura de carpetas
 
 ```
 src/
-  api/            # Cliente de API y funciones específicas por recurso
-  components/     # Componentes de presentación y contenedores
-  hooks/          # Custom hooks para datos y comportamiento reusable
-  types/          # Modelos TypeScript (User, Post, etc.)
-  utils/          # Helpers puros (validación, formateo, etc.)
-  App.tsx         # Punto de entrada de la app
-  main.tsx        # Bootstrap
+  api/              # Cliente de API y funciones específicas por recurso
+  api/__mocks__/    # Mocks de la API para tests
+  components/       # Componentes de presentación reutilizables
+  hooks/            # Custom hooks para datos y comportamiento reusable
+  pages/            # Páginas vinculadas a rutas
+  types/            # Modelos TypeScript (User, Post, etc.)
+  App.tsx           # Definición de rutas
+  main.tsx          # Bootstrap
 ```
 
 ### Flujo de datos
@@ -92,14 +93,21 @@ Se resolvió usando **babel-jest** con los presets `@babel/preset-env`, `@babel/
 
 ---
 
-## Qué haría con más tiempo
+## Tests
 
-> En construcción. Se completará al final de la implementación.
+La suite usa **Jest + React Testing Library**. Los tests están en archivos `.test.tsx` junto al código que prueban.
+
+- `src/App.test.tsx`: verifica que la ruta por defecto muestra el listado de usuarios.
+- `src/components/UserList.test.tsx`: filtrado por nombre con debounce y navegación al hacer clic en un usuario.
+- `src/components/PostFormDialog.test.tsx`: validación de campos obligatorios y envío del formulario.
+- `src/pages/PostListPage.test.tsx`: renderizado de publicaciones en cards y apertura del diálogo de nueva publicación.
+
+Los requests a `jsonplaceholder.typicode.com` se mockean con archivos en `src/api/__mocks__/jsonPlaceholder.ts` para que los tests sean deterministas y no dependan de red.
 
 ## Uso de la IA en este proyecto
 
 > En construcción. Se actualizará a medida que avancemos.
 
-- **Qué le pedí**: analizar la base del proyecto, proponer arquitectura, implementar la app paso a paso con commits, agregar tests y documentar decisiones.
+- **Qué le pedí**: analizar la base del proyecto, implementar la app paso a paso con commits, agregar tests y documentar decisiones.
 - **Qué acepté**: el stack Vite + React + TypeScript + MUI + Vitest; la estructura de carpetas; la decisión de no agregar router ni estado global.
-- **Qué corregí / ajusté**: *[se completará al final]*.
+- **Qué corregí / ajusté**: las decisiones de diseño, los ajustes de estilos y además la estructura del proyecto orientado a servicios y con react-query para manejar estado y caché (para proyectos pequeños puede resultar overcoding pero en lo particular me gusta mucho usarlo).

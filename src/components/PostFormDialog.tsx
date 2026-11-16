@@ -47,7 +47,7 @@ export function PostFormDialog({ open, onClose, onSubmit, isPending }: PostFormD
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
       <DialogTitle sx={{ color: '#000' }}>Nueva publicación</DialogTitle>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} role="form">
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <TextField
             label="Título"

@@ -22,7 +22,7 @@ Aplicación hecha con **React + TypeScript + Vite + Material UI** que consume la
 | Lenguaje | TypeScript | Requisito del ejercicio. Da contratos explícitos y reduce errores en props/estado. |
 | UI | Material UI (MUI) | El usuario la instaló previamente. Ofrece componentes accesibles y estilados de entrada. |
 | HTTP | `fetch` nativo | JSONPlaceholder es simple; no justifica agregar axios u otra dependencia. |
-| Estado | React hooks (`useState`, `useEffect`) | La app es pequeña. Evito Redux/Zustand/TanStack Query para no sobrediseñar. |
+| Estado + caché | TanStack Query (`@tanstack/react-query`) | Maneja caché, loading, error y re-fetch de forma simple y robusta. |
 | Testing | Jest + `@testing-library/react` | Ya estaba instalado en el proyecto. Se configuró con Babel para transformar TypeScript. |
 | Validación | Estado local + helpers simples | Evito dependencias extra (`react-hook-form`, zod) porque el formulario tiene solo dos campos obligatorios. |
 
@@ -50,7 +50,7 @@ src/
 ### Decisiones clave
 
 - **No agrego router**: la navegación es una sola pantalla con dos estados (listado / detalle). Un router agregaría complejidad innecesaria.
-- **No agrego manejador de estado global**: con dos vistas y un formulario, el estado local de `App` es suficiente.
+- **TanStack Query para estado y caché del servidor**: maneja usuarios, posts y la creación de posts con caché, estados de carga/error y actualización optimista de la lista.
 - **Fetch nativo + hooks custom**: separo la lógica de API de la UI para que los componentes sean más fáciles de testear. Uso `fetch` directamente, sin axios.
 - **Buscador con debounce**: el filtro de usuarios por nombre usa un custom hook `useDebounce` para no disparar búsquedas en cada tecla.
 - **Material UI para todo**: buscador, lista, tarjetas, formulario, estados de carga/error y feedback.

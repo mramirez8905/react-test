@@ -13,15 +13,12 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDebounce } from '../hooks/useDebounce';
 import { useUsers } from '../hooks/useUsers';
-import type { User } from '../types/api';
 
-interface UserListProps {
-  onSelectUser: (user: User) => void;
-}
-
-export function UserList({ onSelectUser }: UserListProps) {
+export function UserList() {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const { data: users, isLoading, isError, error } = useUsers();
@@ -86,7 +83,7 @@ export function UserList({ onSelectUser }: UserListProps) {
                 <TableRow
                   key={user.id}
                   hover
-                  onClick={() => onSelectUser(user)}
+                  onClick={() => navigate(`/users/${user.id}/posts`)}
                   sx={{ cursor: 'pointer', backgroundColor: '#fff' }}
                   data-testid={`user-row-${user.id}`}
                 >

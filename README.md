@@ -21,6 +21,7 @@ Aplicación hecha con **React + TypeScript + Vite + Material UI** que consume la
 | Build tool | Vite | Ya viene en la base del proyecto. Rápido, moderno, soporte TS nativo. |
 | Lenguaje | TypeScript | Requisito del ejercicio. Da contratos explícitos y reduce errores en props/estado. |
 | UI | Material UI (MUI) | El usuario la instaló previamente. Ofrece componentes accesibles y estilados de entrada. |
+| Router | React Router DOM | Navegación por URL con parámetros (`/users/:userId/posts`). |
 | HTTP | `fetch` nativo | JSONPlaceholder es simple; no justifica agregar axios u otra dependencia. |
 | Estado + caché | TanStack Query (`@tanstack/react-query`) | Maneja caché, loading, error y re-fetch de forma simple y robusta. |
 | Testing | Jest + `@testing-library/react` | Ya estaba instalado en el proyecto. Se configuró con Babel para transformar TypeScript. |
@@ -49,7 +50,7 @@ src/
 
 ### Decisiones clave
 
-- **No agrego router**: la navegación es una sola pantalla con dos estados (listado / detalle). Un router agregaría complejidad innecesaria.
+- **React Router**: la navegación entre el listado de usuarios (`/`) y las publicaciones de un usuario (`/users/:userId/posts`) se hace por URL, pasando el `userId` por parámetro.
 - **TanStack Query para estado y caché del servidor**: maneja usuarios, posts y la creación de posts con caché, estados de carga/error y actualización optimista de la lista.
 - **Fetch nativo + hooks custom**: separo la lógica de API de la UI para que los componentes sean más fáciles de testear. Uso `fetch` directamente, sin axios.
 - **Buscador con debounce**: el filtro de usuarios por nombre usa un custom hook `useDebounce` para no disparar búsquedas en cada tecla.
@@ -58,13 +59,14 @@ src/
 ### Plan de commits propuesto
 
 1. `docs: add analysis and architecture decisions to README`
-2. `chore: setup TypeScript, Vitest and Testing Library`
-3. `feat: add types and jsonplaceholder API client`
-4. `feat: add user list with search`
-5. `feat: add user posts view and create post form`
-6. `feat: add loading and error states`
-7. `test: add unit tests for user list, posts and form`
-8. `docs: finalize README with process and AI usage`
+2. `chore: setup TypeScript, Jest and Testing Library`
+3. `chore: add and configure TanStack Query with custom hooks`
+4. `feat: add types and jsonplaceholder API client`
+5. `feat: add user list with search and debounce`
+6. `style: apply white background, black text, spanish copy and roboto font`
+7. `feat: add react router, posts page and create post form`
+8. `test: add unit tests for user list, posts and form`
+9. `docs: finalize README with process and AI usage`
 
 ---
 

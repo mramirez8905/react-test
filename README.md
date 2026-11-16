@@ -23,7 +23,7 @@ Aplicación hecha con **React + TypeScript + Vite + Material UI** que consume la
 | UI | Material UI (MUI) | El usuario la instaló previamente. Ofrece componentes accesibles y estilados de entrada. |
 | HTTP | `fetch` nativo | JSONPlaceholder es simple; no justifica agregar axios u otra dependencia. |
 | Estado | React hooks (`useState`, `useEffect`) | La app es pequeña. Evito Redux/Zustand/TanStack Query para no sobrediseñar. |
-| Testing | Vitest + `@testing-library/react` | Vite ya está configurado; Vitest es la opción más natural y rápida. |
+| Testing | Jest + `@testing-library/react` | Ya estaba instalado en el proyecto. Se configuró con Babel para transformar TypeScript. |
 | Validación | Estado local + helpers simples | Evito dependencias extra (`react-hook-form`, zod) porque el formulario tiene solo dos campos obligatorios. |
 
 ### Estructura de carpetas
@@ -69,15 +69,23 @@ src/
 
 ## Cómo ejecutar
 
-> En construcción. Se completará al final de la implementación.
-
 ```bash
 npm install
 npm run dev       # levanta el servidor de desarrollo
 npm run test      # ejecuta los tests en modo watch
-npm run test:run  # ejecuta los tests una sola vez
+npm run test:run  # ejecuta los tests una sola vez (CI)
+npm run typecheck # verifica tipos con TypeScript
 npm run build     # build de producción
 ```
+
+### Nota sobre la configuración de Jest
+
+El proyecto ya tenía `jest@30` instalado. La primera opción considerada fue `ts-jest`, pero presentó dos problemas:
+
+1. `ts-jest@29` no es compatible con `jest@30`.
+2. npm instaló una versión falsa/inexistente de TypeScript (`typescript@7.0.2`) al resolver `typescript@*`.
+
+Se resolvió usando **babel-jest** con los presets `@babel/preset-env`, `@babel/preset-react` y `@babel/preset-typescript`, que es la configuración más estable para Jest 30 + React + TypeScript. Los archivos de configuración son `jest.config.cjs` y `babel.config.cjs` (extensión `.cjs` porque el `package.json` tiene `"type": "module"`).
 
 ---
 

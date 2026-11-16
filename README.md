@@ -51,7 +51,8 @@ src/
 
 - **No agrego router**: la navegación es una sola pantalla con dos estados (listado / detalle). Un router agregaría complejidad innecesaria.
 - **No agrego manejador de estado global**: con dos vistas y un formulario, el estado local de `App` es suficiente.
-- **Fetch nativo + hooks custom**: separo la lógica de API de la UI para que los componentes sean más fáciles de testear.
+- **Fetch nativo + hooks custom**: separo la lógica de API de la UI para que los componentes sean más fáciles de testear. Uso `fetch` directamente, sin axios.
+- **Buscador con debounce**: el filtro de usuarios por nombre usa un custom hook `useDebounce` para no disparar búsquedas en cada tecla.
 - **Material UI para todo**: buscador, lista, tarjetas, formulario, estados de carga/error y feedback.
 
 ### Plan de commits propuesto

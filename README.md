@@ -1,16 +1,94 @@
-# React + Vite
+# User Posts App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación hecha con **React + TypeScript + Vite + Material UI** que consume la API pública de [JSONPlaceholder](https://jsonplaceholder.typicode.com/).
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Listado de usuarios con búsqueda por nombre.
+2. Al elegir un usuario, ver sus publicaciones y crear una nueva mediante un formulario validado (título y texto obligatorios). La API no persiste, así que la nueva publicación se agrega localmente a la lista.
+3. Estados de carga y error visibles.
+4. Al menos 3 tests con **Vitest + React Testing Library**.
+5. README con instrucciones de ejecución, decisiones tomadas, próximos pasos y registro del uso de IA.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Análisis y decisiones de arquitectura
 
-## Expanding the ESLint configuration
+### Stack elegido
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Pieza | Elección | Por qué |
+|-------|----------|---------|
+| Build tool | Vite | Ya viene en la base del proyecto. Rápido, moderno, soporte TS nativo. |
+| Lenguaje | TypeScript | Requisito del ejercicio. Da contratos explícitos y reduce errores en props/estado. |
+| UI | Material UI (MUI) | El usuario la instaló previamente. Ofrece componentes accesibles y estilados de entrada. |
+| HTTP | `fetch` nativo | JSONPlaceholder es simple; no justifica agregar axios u otra dependencia. |
+| Estado | React hooks (`useState`, `useEffect`) | La app es pequeña. Evito Redux/Zustand/TanStack Query para no sobrediseñar. |
+| Testing | Vitest + `@testing-library/react` | Vite ya está configurado; Vitest es la opción más natural y rápida. |
+| Validación | Estado local + helpers simples | Evito dependencias extra (`react-hook-form`, zod) porque el formulario tiene solo dos campos obligatorios. |
+
+### Estructura de carpetas
+
+```
+src/
+  api/            # Cliente de API y funciones específicas por recurso
+  components/     # Componentes de presentación y contenedores
+  hooks/          # Custom hooks para datos y comportamiento reusable
+  types/          # Modelos TypeScript (User, Post, etc.)
+  utils/          # Helpers puros (validación, formateo, etc.)
+  App.tsx         # Punto de entrada de la app
+  main.tsx        # Bootstrap
+```
+
+### Flujo de datos
+
+1. `App` carga la lista de usuarios desde `/users`.
+2. El usuario filtra por nombre.
+3. Al hacer clic en un usuario, `App` guarda el `userId` seleccionado.
+4. Se cargan los posts de ese usuario desde `/posts?userId={id}`.
+5. El formulario de nuevo post valida título y cuerpo, hace `POST /posts` y agrega el resultado a la lista local.
+
+### Decisiones clave
+
+- **No agrego router**: la navegación es una sola pantalla con dos estados (listado / detalle). Un router agregaría complejidad innecesaria.
+- **No agrego manejador de estado global**: con dos vistas y un formulario, el estado local de `App` es suficiente.
+- **Fetch nativo + hooks custom**: separo la lógica de API de la UI para que los componentes sean más fáciles de testear.
+- **Material UI para todo**: buscador, lista, tarjetas, formulario, estados de carga/error y feedback.
+
+### Plan de commits propuesto
+
+1. `docs: add analysis and architecture decisions to README`
+2. `chore: setup TypeScript, Vitest and Testing Library`
+3. `feat: add types and jsonplaceholder API client`
+4. `feat: add user list with search`
+5. `feat: add user posts view and create post form`
+6. `feat: add loading and error states`
+7. `test: add unit tests for user list, posts and form`
+8. `docs: finalize README with process and AI usage`
+
+---
+
+## Cómo ejecutar
+
+> En construcción. Se completará al final de la implementación.
+
+```bash
+npm install
+npm run dev       # levanta el servidor de desarrollo
+npm run test      # ejecuta los tests en modo watch
+npm run test:run  # ejecuta los tests una sola vez
+npm run build     # build de producción
+```
+
+---
+
+## Qué haría con más tiempo
+
+> En construcción. Se completará al final de la implementación.
+
+## Uso de la IA en este proyecto
+
+> En construcción. Se actualizará a medida que avancemos.
+
+- **Qué le pedí**: analizar la base del proyecto, proponer arquitectura, implementar la app paso a paso con commits, agregar tests y documentar decisiones.
+- **Qué acepté**: el stack Vite + React + TypeScript + MUI + Vitest; la estructura de carpetas; la decisión de no agregar router ni estado global.
+- **Qué corregí / ajusté**: *[se completará al final]*.

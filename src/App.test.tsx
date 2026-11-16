@@ -23,6 +23,6 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 describe('App', () => {
   it('renders the app title', () => {
     render(<App />, { wrapper: Wrapper });
-    expect(screen.getByRole('heading', { name: /user posts/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /publicaciones de usuarios/i })).toBeInTheDocument();
   });
 });

@@ -1,16 +1,23 @@
+import { Container, Typography } from '@mui/material';
 import { useState } from 'react';
+import { UserList } from './components/UserList';
+import type { User } from './types/api';
 
 function App() {
-  const [count, setCount] = useState<number>(0);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   return (
-    <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <h1>User Posts App</h1>
-      <p>React + TypeScript + Material UI + Jest</p>
-      <button type="button" onClick={() => setCount((c) => c + 1)}>
-        Count is {count}
-      </button>
-    </div>
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <Typography variant="h3" component="h1" gutterBottom>
+        User Posts
+      </Typography>
+      <UserList onSelectUser={setSelectedUser} />
+      {selectedUser && (
+        <Typography variant="body1" sx={{ mt: 2 }}>
+          Selected user: {selectedUser.name}
+        </Typography>
+      )}
+    </Container>
   );
 }
 
